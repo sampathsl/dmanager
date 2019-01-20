@@ -10,8 +10,6 @@ import java.util.List;
 @Repository
 public interface DownloadTaskLogRepository extends CrudRepository<DownloadTaskLog, Long> {
 
-    @Query(value = "SELECT * FROM Download_Task_Log u WHERE u.taskId = ?1",
-            nativeQuery = true)
-    public List<DownloadTaskLog> findAllByTaskId(Long taskId);
-
+  @Query(value = "SELECT * FROM Download_Task_Log u WHERE u.taskId = ?1", nativeQuery = true)
+  List<DownloadTaskLog> findAllByTaskId(Long taskId);
 }

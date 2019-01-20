@@ -5,5 +5,4 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DownloadSessionRepository extends CrudRepository<DownloadSession, Long> {
-}
+public interface DownloadSessionRepository extends CrudRepository<DownloadSession, Long> {}

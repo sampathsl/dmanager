@@ -15,13 +15,19 @@ public class DownloadTask implements Serializable {
 
   private static final long serialVersionUID = -271303463116543604L;
 
-  @Id @GeneratedValue private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @NotNull private Long sessionId = 0l;
 
   @Version private Long version;
 
   @NotNull private String fileSource;
 
   @NotNull private String fileDestination;
+
+  @NotNull private String protocol;
 
   @NotNull
   @Convert(converter = LocalDateTimeConverter.class)
@@ -31,8 +37,6 @@ public class DownloadTask implements Serializable {
   @Convert(converter = LocalDateTimeConverter.class)
   private LocalDateTime ended;
 
-  @NotNull private String Protocol;
-
   @NotNull private long fileTotalSize;
 
   @NotNull private float failurePercentage;
@@ -41,21 +45,27 @@ public class DownloadTask implements Serializable {
 
   @NotNull private FileSizeStatus fileSizeStatus;
 
+  protected DownloadTask() {
+    super();
+  }
+
   public DownloadTask(
+      @NotNull Long sessionId,
       @NotNull String fileSource,
       @NotNull String fileDestination,
-      @NotNull LocalDateTime started,
-      @NotNull LocalDateTime ended,
       @NotNull String protocol,
-      @NotNull long fileTotalSize,
-      @NotNull float failurePercentage,
-      @NotNull FileSpeedStatus fileSpeedStatus,
-      @NotNull FileSizeStatus fileSizeStatus) {
+      @NotNull LocalDateTime started,
+      LocalDateTime ended,
+      long fileTotalSize,
+      float failurePercentage,
+      FileSpeedStatus fileSpeedStatus,
+      FileSizeStatus fileSizeStatus) {
+    this.setSessionId(sessionId);
     this.setFileSource(fileSource);
     this.setFileDestination(fileDestination);
+    this.setProtocol(protocol);
     this.setStarted(started);
     this.setEnded(ended);
-    this.setProtocol(protocol);
     this.setFileTotalSize(fileTotalSize);
     this.setFailurePercentage(failurePercentage);
     this.setFileSpeedStatus(fileSpeedStatus);
@@ -64,21 +74,23 @@ public class DownloadTask implements Serializable {
 
   public DownloadTask(
       @NotNull Long version,
+      @NotNull Long sessionId,
       @NotNull String fileSource,
       @NotNull String fileDestination,
-      @NotNull LocalDateTime started,
-      @NotNull LocalDateTime ended,
       @NotNull String protocol,
-      @NotNull long fileTotalSize,
-      @NotNull float failurePercentage,
-      @NotNull FileSpeedStatus fileSpeedStatus,
-      @NotNull FileSizeStatus fileSizeStatus) {
+      @NotNull LocalDateTime started,
+      LocalDateTime ended,
+      long fileTotalSize,
+      float failurePercentage,
+      FileSpeedStatus fileSpeedStatus,
+      FileSizeStatus fileSizeStatus) {
     this.setVersion(version);
+    this.setSessionId(sessionId);
     this.setFileSource(fileSource);
     this.setFileDestination(fileDestination);
+    this.setProtocol(protocol);
     this.setStarted(started);
     this.setEnded(ended);
-    this.setProtocol(protocol);
     this.setFileTotalSize(fileTotalSize);
     this.setFailurePercentage(failurePercentage);
     this.setFileSpeedStatus(fileSpeedStatus);
@@ -89,11 +101,19 @@ public class DownloadTask implements Serializable {
     return id;
   }
 
+  public Long getSessionId() {
+    return sessionId;
+  }
+
+  public void setSessionId(Long sessionId) {
+    this.sessionId = sessionId;
+  }
+
   public Long getVersion() {
     return version;
   }
 
-  private void setVersion(Long version) {
+  public void setVersion(Long version) {
     this.version = version;
   }
 
@@ -101,7 +121,7 @@ public class DownloadTask implements Serializable {
     return fileSource;
   }
 
-  private void setFileSource(String fileSource) {
+  public void setFileSource(String fileSource) {
     this.fileSource = fileSource;
   }
 
@@ -109,15 +129,23 @@ public class DownloadTask implements Serializable {
     return fileDestination;
   }
 
-  private void setFileDestination(String fileDestination) {
+  public void setFileDestination(String fileDestination) {
     this.fileDestination = fileDestination;
+  }
+
+  public String getProtocol() {
+    return protocol;
+  }
+
+  public void setProtocol(String protocol) {
+    this.protocol = protocol;
   }
 
   public LocalDateTime getStarted() {
     return started;
   }
 
-  private void setStarted(LocalDateTime started) {
+  public void setStarted(LocalDateTime started) {
     this.started = started;
   }
 
@@ -125,23 +153,15 @@ public class DownloadTask implements Serializable {
     return ended;
   }
 
-  private void setEnded(LocalDateTime ended) {
+  public void setEnded(LocalDateTime ended) {
     this.ended = ended;
-  }
-
-  public String getProtocol() {
-    return Protocol;
-  }
-
-  private void setProtocol(String protocol) {
-    Protocol = protocol;
   }
 
   public long getFileTotalSize() {
     return fileTotalSize;
   }
 
-  private void setFileTotalSize(long fileTotalSize) {
+  public void setFileTotalSize(long fileTotalSize) {
     this.fileTotalSize = fileTotalSize;
   }
 
@@ -149,7 +169,7 @@ public class DownloadTask implements Serializable {
     return failurePercentage;
   }
 
-  private void setFailurePercentage(float failurePercentage) {
+  public void setFailurePercentage(float failurePercentage) {
     this.failurePercentage = failurePercentage;
   }
 
@@ -157,7 +177,7 @@ public class DownloadTask implements Serializable {
     return fileSpeedStatus;
   }
 
-  private void setFileSpeedStatus(FileSpeedStatus fileSpeedStatus) {
+  public void setFileSpeedStatus(FileSpeedStatus fileSpeedStatus) {
     this.fileSpeedStatus = fileSpeedStatus;
   }
 
@@ -165,7 +185,63 @@ public class DownloadTask implements Serializable {
     return fileSizeStatus;
   }
 
-  private void setFileSizeStatus(FileSizeStatus fileSizeStatus) {
+  public void setFileSizeStatus(FileSizeStatus fileSizeStatus) {
     this.fileSizeStatus = fileSizeStatus;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + ((sessionId == null) ? 0 : sessionId.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    DownloadTask other = (DownloadTask) obj;
+    if (id == null) {
+      if (other.id != null) return false;
+    } else if (!id.equals(other.id)) return false;
+    if (sessionId == null) {
+        return other.sessionId == null;
+    } else return sessionId.equals(other.sessionId);
+  }
+
+  @Override
+  public String toString() {
+    return "DownloadTask{"
+        + "id="
+        + id
+        + ", sessionId="
+        + sessionId
+        + ", version="
+        + version
+        + ", fileSource='"
+        + fileSource
+        + '\''
+        + ", fileDestination='"
+        + fileDestination
+        + '\''
+        + ", protocol='"
+        + protocol
+        + '\''
+        + ", started="
+        + started
+        + ", ended="
+        + ended
+        + ", fileTotalSize="
+        + fileTotalSize
+        + ", failurePercentage="
+        + failurePercentage
+        + ", fileSpeedStatus="
+        + fileSpeedStatus
+        + ", fileSizeStatus="
+        + fileSizeStatus
+        + '}';
   }
 }

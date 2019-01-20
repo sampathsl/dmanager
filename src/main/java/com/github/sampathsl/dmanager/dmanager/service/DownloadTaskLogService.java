@@ -7,14 +7,13 @@ import java.util.Optional;
 
 public interface DownloadTaskLogService {
 
-    DownloadTaskLog create(DownloadTaskLog downloadTaskLog);
+  DownloadTaskLog create(DownloadTaskLog downloadTaskLog);
 
-    void delete(DownloadTaskLog downloadTask);
+  void delete(DownloadTaskLog downloadTask);
 
-    List<DownloadTaskLog> findAllByTaskId(Long taskId);
+  List<DownloadTaskLog> findAllByTaskId(Long taskId);
 
-    Optional<DownloadTaskLog> findById(Long id);
+  Optional<DownloadTaskLog> findById(Long id);
 
-    DownloadTaskLog update(DownloadTaskLog downloadTaskLog);
-
+  DownloadTaskLog update(DownloadTaskLog downloadTaskLog);
 }

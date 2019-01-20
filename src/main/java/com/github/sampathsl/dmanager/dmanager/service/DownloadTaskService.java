@@ -2,16 +2,20 @@ package com.github.sampathsl.dmanager.dmanager.service;
 
 import com.github.sampathsl.dmanager.dmanager.model.DownloadTask;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DownloadTaskService {
 
-    DownloadTask create(DownloadTask downloadTask);
+  DownloadTask create(DownloadTask downloadTask);
 
-    void delete(DownloadTask downloadTask);
+  List<DownloadTask> createDownloadTasks(List<DownloadTask> downloadTasks);
 
-    Optional<DownloadTask> findById(Long id);
+  void delete(DownloadTask downloadTask);
 
-    DownloadTask update(DownloadTask downloadTask);
+  Optional<DownloadTask> findById(Long id);
 
+  List<DownloadTask> findBySessionId(Long sessionId);
+
+  DownloadTask update(DownloadTask downloadTask);
 }

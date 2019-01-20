@@ -1,7 +1,9 @@
 package com.github.sampathsl.dmanager.dmanager.config;
 
+import com.github.sampathsl.dmanager.dmanager.model.DownloadSession;
 import com.github.sampathsl.dmanager.dmanager.model.DownloadTask;
 import com.github.sampathsl.dmanager.dmanager.model.DownloadTaskLog;
+import com.github.sampathsl.dmanager.dmanager.service.DownloadSessionService;
 import com.github.sampathsl.dmanager.dmanager.service.DownloadTaskLogService;
 import com.github.sampathsl.dmanager.dmanager.service.DownloadTaskService;
 import com.github.sampathsl.dmanager.dmanager.util.DownloadStatus;
@@ -18,11 +20,17 @@ import java.util.logging.Logger;
 @Component
 public class DataLoader implements ApplicationRunner {
 
-  private static final Logger LOGGER = Logger.getLogger( DataLoader.class.getName() );
+  private static final Logger LOGGER = Logger.getLogger(DataLoader.class.getName());
+
+  @Autowired private DownloadSessionService downloadSessionService;
 
   @Autowired private DownloadTaskService downloadTaskService;
 
   @Autowired private DownloadTaskLogService downloadTaskLogService;
+
+  public void setDownloadSessionService(DownloadSessionService downloadSessionService) {
+    this.downloadSessionService = downloadSessionService;
+  }
 
   public void setDownloadTaskService(DownloadTaskService downloadTaskService) {
     this.downloadTaskService = downloadTaskService;
@@ -33,37 +41,85 @@ public class DataLoader implements ApplicationRunner {
   }
 
   @Override
-  public void run(ApplicationArguments args) throws Exception {
+  public void run(ApplicationArguments args) {
     LOGGER.info("RUNNING ................... ");
     try {
+
+      DownloadSession downloadSession = new DownloadSession(LocalDateTime.now());
+      DownloadSession downloadSessionSaved = downloadSessionService.create(downloadSession);
+
       String fileSource = "http://my.file.com/file";
       String fileDestination = "/home/sampath/";
       LocalDateTime started = LocalDateTime.now();
       LocalDateTime ended = LocalDateTime.now();
       String protocol = "http";
       long fileTotalSize = 1000000;
-      float failurePercentage = 51.2f;
+      float failurePercentage = 51.20f;
       FileSpeedStatus fileSpeedStatus = FileSpeedStatus.SLOW;
-      FileSizeStatus fileSizeStatus = FileSizeStatus.BIG;
-      DownloadTask downloadTask =
+      FileSizeStatus fileSizeStatus = FileSizeStatus.SMALL;
+
+      String fileSourceTwo = "https://my.file.com/file";
+      String fileDestinationTwo = "/home/sampath/";
+      LocalDateTime startedTwo = LocalDateTime.now();
+      LocalDateTime endedTwo = LocalDateTime.now();
+      String protocolTwo = "http";
+      long fileTotalSizeTwo = 1000000;
+      float failurePercentageTwo = 51.20f;
+      FileSpeedStatus fileSpeedStatusTwo = FileSpeedStatus.SLOW;
+      FileSizeStatus fileSizeStatusTwo = FileSizeStatus.SMALL;
+
+      DownloadTask downloadTaskOne =
           new DownloadTask(
+              downloadSessionSaved.getId(),
               fileSource,
               fileDestination,
+              protocol,
               started,
               ended,
-              protocol,
               fileTotalSize,
               failurePercentage,
               fileSpeedStatus,
               fileSizeStatus);
-      DownloadTask downloadTask1 = downloadTaskService.create(downloadTask);
-      LOGGER.info(downloadTask1.getId().toString());
-      DownloadTaskLog downloadTaskLog =
+
+      DownloadTask downloadTaskTwo =
+          new DownloadTask(
+              downloadSessionSaved.getId(),
+              fileSourceTwo,
+              fileDestinationTwo,
+              protocolTwo,
+              startedTwo,
+              endedTwo,
+              fileTotalSizeTwo,
+              failurePercentageTwo,
+              fileSpeedStatusTwo,
+              fileSizeStatusTwo);
+
+      DownloadTask downloadTaskOneSaved = downloadTaskService.create(downloadTaskOne);
+      DownloadTask downloadTaskTwoSaved = downloadTaskService.create(downloadTaskTwo);
+
+      DownloadTaskLog downloadTaskLogOne =
           new DownloadTaskLog(
-              downloadTask.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING, 10.0f);
-      downloadTaskLogService.create(downloadTaskLog);
+              downloadTaskOneSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING, 10.0f);
+
+      DownloadTaskLog downloadTaskLogTwo =
+          new DownloadTaskLog(
+              downloadTaskOneSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING, 20.0f);
+
+      DownloadTaskLog downloadTaskLogThree =
+          new DownloadTaskLog(
+              downloadTaskTwoSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING, 10.0f);
+
+      DownloadTaskLog downloadTaskLogFour =
+          new DownloadTaskLog(
+              downloadTaskTwoSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING, 30.0f);
+
+      downloadTaskLogService.create(downloadTaskLogOne);
+      downloadTaskLogService.create(downloadTaskLogTwo);
+      downloadTaskLogService.create(downloadTaskLogThree);
+      downloadTaskLogService.create(downloadTaskLogFour);
+
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.info("Error occurred " + e.getMessage());
     }
     LOGGER.info("ENDING ................... ");
   }

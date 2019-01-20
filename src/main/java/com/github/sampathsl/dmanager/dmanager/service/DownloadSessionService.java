@@ -6,10 +6,9 @@ import java.util.Optional;
 
 public interface DownloadSessionService {
 
-    DownloadSession create(DownloadSession downloadSession);
+  DownloadSession create(DownloadSession downloadSession);
 
-    Optional<DownloadSession> findById(Long id);
+  Optional<DownloadSession> findById(Long id);
 
-    DownloadSession update(DownloadSession downloadSession);
-
+  DownloadSession update(DownloadSession downloadSession);
 }

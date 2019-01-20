@@ -14,7 +14,9 @@ public class DownloadTaskLog implements Serializable {
 
   private static final long serialVersionUID = -8295130262875892440L;
 
-  @Id @GeneratedValue private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   @Version private Long version;
 
@@ -29,6 +31,10 @@ public class DownloadTaskLog implements Serializable {
   @NotNull private float progress;
 
   // TODO - add more
+
+  protected DownloadTaskLog() {
+    super();
+  }
 
   public DownloadTaskLog(
       @NotNull Long taskId,
@@ -62,7 +68,7 @@ public class DownloadTaskLog implements Serializable {
     return version;
   }
 
-  private void setVersion(Long version) {
+  public void setVersion(Long version) {
     this.version = version;
   }
 
@@ -78,7 +84,7 @@ public class DownloadTaskLog implements Serializable {
     return created;
   }
 
-  private void setCreated(LocalDateTime created) {
+  public void setCreated(LocalDateTime created) {
     this.created = created;
   }
 
@@ -86,7 +92,7 @@ public class DownloadTaskLog implements Serializable {
     return downloadStatus;
   }
 
-  private void setDownloadStatus(DownloadStatus downloadStatus) {
+  public void setDownloadStatus(DownloadStatus downloadStatus) {
     this.downloadStatus = downloadStatus;
   }
 
@@ -94,7 +100,48 @@ public class DownloadTaskLog implements Serializable {
     return progress;
   }
 
-  private void setProgress(float progress) {
+  public void setProgress(float progress) {
     this.progress = progress;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + ((taskId == null) ? 0 : taskId.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    DownloadTaskLog other = (DownloadTaskLog) obj;
+    if (id == null) {
+      if (other.id != null) return false;
+    } else if (!id.equals(other.id)) return false;
+    if (taskId == null) {
+        return other.taskId == null;
+    } else return taskId.equals(other.taskId);
+  }
+
+  @Override
+  public String toString() {
+    return "DownloadTaskLog{"
+        + "id="
+        + id
+        + ", version="
+        + version
+        + ", taskId="
+        + taskId
+        + ", created="
+        + created
+        + ", downloadStatus="
+        + downloadStatus
+        + ", progress="
+        + progress
+        + '}';
   }
 }
