@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ModelMapperUtil extends ModelMapper {
+
   public ModelMapperUtil() {
     this.getConfiguration()
         .setFieldMatchingEnabled(true)

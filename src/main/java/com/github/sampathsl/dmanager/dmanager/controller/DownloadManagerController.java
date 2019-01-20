@@ -128,14 +128,16 @@ public class DownloadManagerController {
       return getErrors(errors);
     }
 
-    DownloadSession downloadSession = modelMapper.map(downloadSessionDto, DownloadSession.class);
+    DownloadSession downloadSession =
+        helperUtil.convertDownloadSessionDtoToEntity(downloadSessionDto);
     DownloadSession downloadSessionSaved = downloadSessionService.create(downloadSession);
     List<DownloadTask> downloadTasks =
         helperUtil.createDownloadTasks(
             downloadSessionDto.getUrls(),
             downloadSessionSaved.getId(),
             environment.getProperty("downloadDestination"));
-    downloadSessionSaved.setDownloadTasks(downloadTasks);
+    List<DownloadTask> downloadTaskSaved = downloadTaskService.createDownloadTasks(downloadTasks);
+    downloadSessionSaved.setDownloadTasks(downloadTaskSaved);
     DownloadSessionDto downloadSessionDtoSaved =
         modelMapper.map(downloadSessionSaved, DownloadSessionDto.class);
     return new ResponseEntity<DownloadSessionDto>(downloadSessionDtoSaved, HttpStatus.CREATED);

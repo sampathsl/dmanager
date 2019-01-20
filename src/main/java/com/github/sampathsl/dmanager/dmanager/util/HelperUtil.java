@@ -22,7 +22,6 @@ public class HelperUtil {
   private static final Logger LOGGER = Logger.getLogger(HelperUtil.class.getName());
 
   /**
-   *
    * @param url
    * @return
    */
@@ -62,23 +61,31 @@ public class HelperUtil {
     return downloadSessionDto;
   }
 
+  public DownloadSession convertDownloadSessionDtoToEntity(DownloadSessionDto downloadSessionDto) {
+    DownloadSession downloadSession =
+        new DownloadSession(downloadSessionDto.getVersion(), downloadSessionDto.getCreated());
+    return downloadSession;
+  }
+
   public List<DownloadTask> createDownloadTasks(
       List<String> urlStrings, Long sessionId, String downloadDestination) {
-    List<DownloadTask> downloadTasks = new ArrayList<>();
-    urlStrings.stream()
-        .forEach(
-            str ->
-                new DownloadTask(
-                    sessionId,
-                    str,
-                    downloadDestination,
-                    getProtocol(str),
-                    LocalDateTime.now(),
-                    null,
-                    0l,
-                    0l,
-                    FileSpeedStatus.UNKNOWN,
-                    FileSizeStatus.UNKNOWN));
+    List<DownloadTask> downloadTasks =
+        urlStrings
+            .parallelStream()
+            .map(
+                selectedUrl ->
+                    new DownloadTask(
+                        sessionId,
+                        selectedUrl,
+                        downloadDestination,
+                        getProtocol(selectedUrl),
+                        LocalDateTime.now(),
+                        LocalDateTime.now(),
+                        0l,
+                        0l,
+                        FileSpeedStatus.UNKNOWN,
+                        FileSizeStatus.UNKNOWN))
+            .collect(Collectors.toList());
     return downloadTasks;
   }
 }
