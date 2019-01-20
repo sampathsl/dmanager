@@ -33,6 +33,11 @@ public class DownloadTaskLogServiceImpl implements DownloadTaskLogService {
   }
 
   @Override
+  public Optional<DownloadTaskLog> findLastRecordAllByTaskId(Long taskId) {
+    return downloadTaskRepository.findLastRecordAllByTaskId(taskId);
+  }
+
+  @Override
   public Optional<DownloadTaskLog> findById(Long id) {
     return Optional.empty();
   }

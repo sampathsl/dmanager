@@ -21,6 +21,11 @@ public class HelperUtil {
 
   private static final Logger LOGGER = Logger.getLogger(HelperUtil.class.getName());
 
+  /**
+   *
+   * @param url
+   * @return
+   */
   public String getProtocol(String url) {
     StringBuffer protocol = new StringBuffer();
     try {

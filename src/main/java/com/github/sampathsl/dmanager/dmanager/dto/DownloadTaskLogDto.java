@@ -18,29 +18,6 @@ public class DownloadTaskLogDto {
 
   // TODO - add more
 
-  public DownloadTaskLogDto() {}
-
-  public DownloadTaskLogDto(
-      Long taskId, LocalDateTime created, DownloadStatus downloadStatus, float progress) {
-    this.setTaskId(taskId);
-    this.setCreated(created);
-    this.setDownloadStatus(downloadStatus);
-    this.setProgress(progress);
-  }
-
-  public DownloadTaskLogDto(
-      Long version,
-      Long taskId,
-      LocalDateTime created,
-      DownloadStatus downloadStatus,
-      float progress) {
-    this.setVersion(version);
-    this.setTaskId(taskId);
-    this.setCreated(created);
-    this.setDownloadStatus(downloadStatus);
-    this.setProgress(progress);
-  }
-
   public Long getVersion() {
     return version;
   }

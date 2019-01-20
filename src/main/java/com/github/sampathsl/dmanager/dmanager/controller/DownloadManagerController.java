@@ -1,13 +1,18 @@
 package com.github.sampathsl.dmanager.dmanager.controller;
 
+import com.github.sampathsl.dmanager.dmanager.config.ModelMapperUtil;
 import com.github.sampathsl.dmanager.dmanager.dto.DownloadSessionDto;
+import com.github.sampathsl.dmanager.dmanager.dto.DownloadTaskDto;
+import com.github.sampathsl.dmanager.dmanager.dto.DownloadTaskLogDto;
 import com.github.sampathsl.dmanager.dmanager.model.DownloadSession;
 import com.github.sampathsl.dmanager.dmanager.model.DownloadTask;
+import com.github.sampathsl.dmanager.dmanager.model.DownloadTaskLog;
 import com.github.sampathsl.dmanager.dmanager.service.DownloadSessionService;
+import com.github.sampathsl.dmanager.dmanager.service.DownloadTaskLogService;
 import com.github.sampathsl.dmanager.dmanager.service.DownloadTaskService;
 import com.github.sampathsl.dmanager.dmanager.util.CustomErrorTypeException;
 import com.github.sampathsl.dmanager.dmanager.util.HelperUtil;
-import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -32,7 +37,7 @@ public class DownloadManagerController {
 
   @Autowired private Environment environment;
 
-  @Autowired private ModelMapper modelMapper;
+  @Autowired private ModelMapperUtil modelMapper;
 
   @Autowired private HelperUtil helperUtil;
 
@@ -40,11 +45,13 @@ public class DownloadManagerController {
 
   @Autowired private DownloadTaskService downloadTaskService;
 
+  @Autowired private DownloadTaskLogService downloadTaskLogService;
+
   public void setEnvironment(Environment environment) {
     this.environment = environment;
   }
 
-  public void setModelMapper(ModelMapper modelMapper) {
+  public void setModelMapper(ModelMapperUtil modelMapper) {
     this.modelMapper = modelMapper;
   }
 
@@ -60,18 +67,17 @@ public class DownloadManagerController {
     this.downloadTaskService = downloadTaskService;
   }
 
-  @GetMapping("/status")
-  public String status() {
-    return "success";
+  public void setDownloadTaskLogService(DownloadTaskLogService downloadTaskLogService) {
+    this.downloadTaskLogService = downloadTaskLogService;
   }
 
-  @GetMapping("/info/{property}")
-  public String getInfo(@Valid @PathVariable("property") String property) {
-    return environment.getProperty(property);
+  @GetMapping("/status")
+  public String status() {
+    return "ok";
   }
 
   @GetMapping("/download/session/{id}")
-  public ResponseEntity<?> getInfo(@Valid @PathVariable("id") Long id) {
+  public ResponseEntity<?> getDownloadSessionInfo(@Valid @PathVariable("id") Long id) {
 
     Optional<DownloadSession> downloadSession = downloadSessionService.findById(id);
     if (downloadSession.isPresent()) {
@@ -84,6 +90,34 @@ public class DownloadManagerController {
     }
     return new ResponseEntity<DownloadSession>(
         new DownloadSession(LocalDateTime.now()), HttpStatus.NO_CONTENT);
+  }
+
+  @GetMapping("/download/task/{id}")
+  public ResponseEntity<?> getDownloadTaskInfo(@Valid @PathVariable("id") Long id) {
+
+    Optional<DownloadTask> downloadTask = downloadTaskService.findById(id);
+    DownloadTaskDto downloadTaskDto = modelMapper.map(downloadTask.get(), DownloadTaskDto.class);
+    return new ResponseEntity<DownloadTaskDto>(downloadTaskDto, HttpStatus.OK);
+  }
+
+  @GetMapping("/download/task-logs/{taskId}")
+  public ResponseEntity<?> getAllDownloadTaskLogInfo(@Valid @PathVariable("taskId") Long taskId) {
+
+    List<DownloadTaskLog> downloadTaskLogs = downloadTaskLogService.findAllByTaskId(taskId);
+    java.lang.reflect.Type targetListType = new TypeToken<List<DownloadTaskLogDto>>() {}.getType();
+    List<DownloadTaskLogDto> downloadTaskLogDtos =
+        modelMapper.map(downloadTaskLogs, targetListType);
+    return new ResponseEntity<List<DownloadTaskLogDto>>(downloadTaskLogDtos, HttpStatus.OK);
+  }
+
+  @GetMapping("/download/task-logs/last/{taskId}")
+  public ResponseEntity<?> getLastDownloadTaskLogInfo(@Valid @PathVariable("taskId") Long taskId) {
+
+    Optional<DownloadTaskLog> downloadTaskLog =
+        downloadTaskLogService.findLastRecordAllByTaskId(taskId);
+    DownloadTaskLogDto downloadTaskLogDto =
+        modelMapper.map(downloadTaskLog.get(), DownloadTaskLogDto.class);
+    return new ResponseEntity<DownloadTaskLogDto>(downloadTaskLogDto, HttpStatus.OK);
   }
 
   @PostMapping("/download")

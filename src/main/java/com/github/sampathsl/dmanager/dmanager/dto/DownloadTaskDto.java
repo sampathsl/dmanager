@@ -15,11 +15,11 @@ public class DownloadTaskDto {
 
   private String fileDestination;
 
+  private String protocol;
+
   private LocalDateTime started;
 
   private LocalDateTime ended;
-
-  private String Protocol;
 
   private long fileTotalSize;
 
@@ -28,52 +28,6 @@ public class DownloadTaskDto {
   private FileSpeedStatus fileSpeedStatus;
 
   private FileSizeStatus fileSizeStatus;
-
-  public DownloadTaskDto() {}
-
-  public DownloadTaskDto(
-      String fileSource,
-      String fileDestination,
-      LocalDateTime started,
-      LocalDateTime ended,
-      String protocol,
-      long fileTotalSize,
-      float failurePercentage,
-      FileSpeedStatus fileSpeedStatus,
-      FileSizeStatus fileSizeStatus) {
-    this.setFileSource(fileSource);
-    this.setFileDestination(fileDestination);
-    this.setStarted(started);
-    this.setEnded(ended);
-    this.setProtocol(protocol);
-    this.setFileTotalSize(fileTotalSize);
-    this.setFailurePercentage(failurePercentage);
-    this.setFileSpeedStatus(fileSpeedStatus);
-    this.setFileSizeStatus(fileSizeStatus);
-  }
-
-  public DownloadTaskDto(
-      Long version,
-      String fileSource,
-      String fileDestination,
-      LocalDateTime started,
-      LocalDateTime ended,
-      String protocol,
-      long fileTotalSize,
-      float failurePercentage,
-      FileSpeedStatus fileSpeedStatus,
-      FileSizeStatus fileSizeStatus) {
-    this.setVersion(version);
-    this.setFileSource(fileSource);
-    this.setFileDestination(fileDestination);
-    this.setStarted(started);
-    this.setEnded(ended);
-    this.setProtocol(protocol);
-    this.setFileTotalSize(fileTotalSize);
-    this.setFailurePercentage(failurePercentage);
-    this.setFileSpeedStatus(fileSpeedStatus);
-    this.setFileSizeStatus(fileSizeStatus);
-  }
 
   public Long getId() {
     return id;
@@ -120,11 +74,11 @@ public class DownloadTaskDto {
   }
 
   public String getProtocol() {
-    return Protocol;
+    return protocol;
   }
 
   private void setProtocol(String protocol) {
-    Protocol = protocol;
+    this.protocol = protocol;
   }
 
   public long getFileTotalSize() {

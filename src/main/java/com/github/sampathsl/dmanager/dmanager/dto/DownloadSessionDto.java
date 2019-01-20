@@ -15,8 +15,6 @@ public class DownloadSessionDto {
 
   private ArrayList<DownloadTaskDto> downloadTasks;
 
-  public DownloadSessionDto() {}
-
   public Long getId() {
     return id;
   }
