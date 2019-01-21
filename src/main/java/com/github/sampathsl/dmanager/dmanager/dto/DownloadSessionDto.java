@@ -1,6 +1,5 @@
 package com.github.sampathsl.dmanager.dmanager.dto;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class DownloadSessionDto {
@@ -8,8 +7,6 @@ public class DownloadSessionDto {
   private Long id;
 
   private Long version;
-
-  private LocalDateTime created;
 
   private ArrayList<String> urls;
 
@@ -29,14 +26,6 @@ public class DownloadSessionDto {
 
   public void setVersion(Long version) {
     this.version = version;
-  }
-
-  public LocalDateTime getCreated() {
-    return created;
-  }
-
-  public void setCreated(LocalDateTime created) {
-    this.created = created;
   }
 
   public ArrayList<String> getUrls() {

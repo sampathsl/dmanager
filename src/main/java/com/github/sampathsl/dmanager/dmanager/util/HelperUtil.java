@@ -41,7 +41,6 @@ public class HelperUtil {
     DownloadSessionDto downloadSessionDto = new DownloadSessionDto();
     downloadSessionDto.setId(downloadSession.getId());
     downloadSessionDto.setVersion(downloadSession.getVersion());
-    downloadSessionDto.setCreated(downloadSession.getCreated());
     ArrayList<String> urls =
         downloadSession
             .getDownloadTasks()
@@ -62,8 +61,7 @@ public class HelperUtil {
   }
 
   public DownloadSession convertDownloadSessionDtoToEntity(DownloadSessionDto downloadSessionDto) {
-    DownloadSession downloadSession =
-        new DownloadSession(downloadSessionDto.getVersion(), downloadSessionDto.getCreated());
+    DownloadSession downloadSession = new DownloadSession(downloadSessionDto.getVersion());
     return downloadSession;
   }
 

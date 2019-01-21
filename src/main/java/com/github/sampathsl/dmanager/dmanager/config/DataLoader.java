@@ -1,5 +1,6 @@
 package com.github.sampathsl.dmanager.dmanager.config;
 
+import com.github.sampathsl.dmanager.dmanager.dto.DownloadSessionDto;
 import com.github.sampathsl.dmanager.dmanager.model.DownloadSession;
 import com.github.sampathsl.dmanager.dmanager.model.DownloadTask;
 import com.github.sampathsl.dmanager.dmanager.model.DownloadTaskLog;
@@ -9,12 +10,15 @@ import com.github.sampathsl.dmanager.dmanager.service.DownloadTaskService;
 import com.github.sampathsl.dmanager.dmanager.util.DownloadStatus;
 import com.github.sampathsl.dmanager.dmanager.util.FileSizeStatus;
 import com.github.sampathsl.dmanager.dmanager.util.FileSpeedStatus;
+import com.github.sampathsl.dmanager.dmanager.util.HelperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 @Component
@@ -22,11 +26,17 @@ public class DataLoader implements ApplicationRunner {
 
   private static final Logger LOGGER = Logger.getLogger(DataLoader.class.getName());
 
+  @Autowired private HelperUtil helperUtil;
+
   @Autowired private DownloadSessionService downloadSessionService;
 
   @Autowired private DownloadTaskService downloadTaskService;
 
   @Autowired private DownloadTaskLogService downloadTaskLogService;
+
+  public void setHelperUtil(HelperUtil helperUtil) {
+    this.helperUtil = helperUtil;
+  }
 
   public void setDownloadSessionService(DownloadSessionService downloadSessionService) {
     this.downloadSessionService = downloadSessionService;
@@ -45,7 +55,10 @@ public class DataLoader implements ApplicationRunner {
     LOGGER.info("RUNNING ................... ");
     try {
 
-      DownloadSession downloadSession = new DownloadSession(LocalDateTime.now());
+      DownloadSessionDto downloadSessionDto = new DownloadSessionDto();
+      downloadSessionDto.setUrls(
+          new ArrayList<>(Arrays.asList("http://my.file.com/file", "https://my.file.com/file")));
+      DownloadSession downloadSession = helperUtil.convertDownloadSessionDtoToEntity(downloadSessionDto);
       DownloadSession downloadSessionSaved = downloadSessionService.create(downloadSession);
 
       String fileSource = "http://my.file.com/file";

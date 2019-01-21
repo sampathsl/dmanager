@@ -123,7 +123,7 @@ public class DownloadTaskLog implements Serializable {
       if (other.id != null) return false;
     } else if (!id.equals(other.id)) return false;
     if (taskId == null) {
-        return other.taskId == null;
+      return other.taskId == null;
     } else return taskId.equals(other.taskId);
   }
 

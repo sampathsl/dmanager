@@ -21,7 +21,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -86,38 +85,39 @@ public class DownloadManagerController {
       downloadSession.get().setDownloadTasks(downloadTasks);
       DownloadSessionDto downloadSessionDtoSaved =
           helperUtil.convertDownloadSessionToDto(modelMapper, downloadSession.get());
-      return new ResponseEntity<DownloadSessionDto>(downloadSessionDtoSaved, HttpStatus.OK);
+      return new ResponseEntity<>(downloadSessionDtoSaved, HttpStatus.OK);
     }
-    return new ResponseEntity<DownloadSession>(
-        new DownloadSession(LocalDateTime.now()), HttpStatus.NO_CONTENT);
+    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 
   @GetMapping("/download/task/{id}")
   public ResponseEntity<?> getDownloadTaskInfo(@Valid @PathVariable("id") Long id) {
-
     Optional<DownloadTask> downloadTask = downloadTaskService.findById(id);
-    DownloadTaskDto downloadTaskDto = modelMapper.map(downloadTask.get(), DownloadTaskDto.class);
-    return new ResponseEntity<DownloadTaskDto>(downloadTaskDto, HttpStatus.OK);
+    return downloadTask.isPresent()
+        ? new ResponseEntity(
+            modelMapper.map(downloadTask.get(), DownloadTaskDto.class), HttpStatus.OK)
+        : new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 
-  @GetMapping("/download/task-logs/{taskId}")
+  @GetMapping("/download/task-logs/task-id/{taskId}")
   public ResponseEntity<?> getAllDownloadTaskLogInfo(@Valid @PathVariable("taskId") Long taskId) {
-
-    List<DownloadTaskLog> downloadTaskLogs = downloadTaskLogService.findAllByTaskId(taskId);
     java.lang.reflect.Type targetListType = new TypeToken<List<DownloadTaskLogDto>>() {}.getType();
-    List<DownloadTaskLogDto> downloadTaskLogDtos =
-        modelMapper.map(downloadTaskLogs, targetListType);
-    return new ResponseEntity<List<DownloadTaskLogDto>>(downloadTaskLogDtos, HttpStatus.OK);
+    List<DownloadTaskLog> downloadTaskLogs = downloadTaskLogService.findAllByTaskId(taskId);
+    return !downloadTaskLogs.isEmpty()
+        ? new ResponseEntity<>(
+            (List<DownloadTaskLogDto>) modelMapper.map(downloadTaskLogs, targetListType),
+            HttpStatus.OK)
+        : new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 
-  @GetMapping("/download/task-logs/last/{taskId}")
+  @GetMapping("/download/task-logs/task-id/{taskId}/last")
   public ResponseEntity<?> getLastDownloadTaskLogInfo(@Valid @PathVariable("taskId") Long taskId) {
-
     Optional<DownloadTaskLog> downloadTaskLog =
         downloadTaskLogService.findLastRecordAllByTaskId(taskId);
-    DownloadTaskLogDto downloadTaskLogDto =
-        modelMapper.map(downloadTaskLog.get(), DownloadTaskLogDto.class);
-    return new ResponseEntity<DownloadTaskLogDto>(downloadTaskLogDto, HttpStatus.OK);
+    return downloadTaskLog.isPresent()
+        ? new ResponseEntity(
+            modelMapper.map(downloadTaskLog.get(), DownloadTaskLogDto.class), HttpStatus.OK)
+        : new ResponseEntity(HttpStatus.NOT_FOUND);
   }
 
   @PostMapping("/download")
@@ -140,7 +140,7 @@ public class DownloadManagerController {
     downloadSessionSaved.setDownloadTasks(downloadTaskSaved);
     DownloadSessionDto downloadSessionDtoSaved =
         modelMapper.map(downloadSessionSaved, DownloadSessionDto.class);
-    return new ResponseEntity<DownloadSessionDto>(downloadSessionDtoSaved, HttpStatus.CREATED);
+    return new ResponseEntity<>(downloadSessionDtoSaved, HttpStatus.CREATED);
   }
 
   /**

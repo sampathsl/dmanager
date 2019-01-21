@@ -208,7 +208,7 @@ public class DownloadTask implements Serializable {
       if (other.id != null) return false;
     } else if (!id.equals(other.id)) return false;
     if (sessionId == null) {
-        return other.sessionId == null;
+      return other.sessionId == null;
     } else return sessionId.equals(other.sessionId);
   }
 
