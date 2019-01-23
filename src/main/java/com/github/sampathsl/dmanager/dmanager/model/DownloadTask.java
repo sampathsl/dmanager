@@ -33,16 +33,21 @@ public class DownloadTask implements Serializable {
   @Convert(converter = LocalDateTimeConverter.class)
   private LocalDateTime started;
 
+  // update
   @NotNull
   @Convert(converter = LocalDateTimeConverter.class)
   private LocalDateTime ended;
 
+  // update
   @NotNull private long fileTotalSize;
 
+  // update
   @NotNull private float failurePercentage;
 
+  // update
   @NotNull private FileSpeedStatus fileSpeedStatus;
 
+  // update
   @NotNull private FileSizeStatus fileSizeStatus;
 
   protected DownloadTask() {

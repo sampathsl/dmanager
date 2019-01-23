@@ -11,6 +11,8 @@ import com.github.sampathsl.dmanager.dmanager.service.DownloadSessionService;
 import com.github.sampathsl.dmanager.dmanager.service.DownloadTaskLogService;
 import com.github.sampathsl.dmanager.dmanager.service.DownloadTaskService;
 import com.github.sampathsl.dmanager.dmanager.util.CustomErrorTypeException;
+import com.github.sampathsl.dmanager.dmanager.util.DownloadHelper;
+import com.github.sampathsl.dmanager.dmanager.util.DownloadStatus;
 import com.github.sampathsl.dmanager.dmanager.util.HelperUtil;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.MalformedURLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -46,6 +50,8 @@ public class DownloadManagerController {
 
   @Autowired private DownloadTaskLogService downloadTaskLogService;
 
+  @Autowired private DownloadHelper downloadHelper;
+
   public void setEnvironment(Environment environment) {
     this.environment = environment;
   }
@@ -68,6 +74,10 @@ public class DownloadManagerController {
 
   public void setDownloadTaskLogService(DownloadTaskLogService downloadTaskLogService) {
     this.downloadTaskLogService = downloadTaskLogService;
+  }
+
+  public void setDownloadHelper(DownloadHelper downloadHelper) {
+    this.downloadHelper = downloadHelper;
   }
 
   @GetMapping("/status")
@@ -135,8 +145,33 @@ public class DownloadManagerController {
         helperUtil.createDownloadTasks(
             downloadSessionDto.getUrls(),
             downloadSessionSaved.getId(),
-            environment.getProperty("downloadDestination"));
+            environment.getProperty("download_destination"));
+
     List<DownloadTask> downloadTaskSaved = downloadTaskService.createDownloadTasks(downloadTasks);
+
+    // add to download process
+    downloadTaskService.createDownloadTasks(downloadTasks).stream()
+        .forEach(
+            dt -> {
+              try {
+                downloadHelper.runDownloadWork(
+                    dt,
+                    new Integer(environment.getProperty("min_block_size")),
+                    new Integer(environment.getProperty("buffer_size")));
+              } catch (InterruptedException e) {
+                // LOG ERROR
+                DownloadTaskLog downloadTaskLog = new DownloadTaskLog(dt.getId(),
+                        LocalDateTime.now(),
+                        DownloadStatus.ERROR, 0, e.getMessage());
+                downloadTaskLogService.create(downloadTaskLog);
+              } catch (MalformedURLException e) {
+                // LOG ERROR
+                DownloadTaskLog downloadTaskLog = new DownloadTaskLog(dt.getId(),
+                        LocalDateTime.now(),
+                        DownloadStatus.ERROR, 0, e.getMessage());
+              }
+            });
+
     downloadSessionSaved.setDownloadTasks(downloadTaskSaved);
     DownloadSessionDto downloadSessionDtoSaved =
         modelMapper.map(downloadSessionSaved, DownloadSessionDto.class);

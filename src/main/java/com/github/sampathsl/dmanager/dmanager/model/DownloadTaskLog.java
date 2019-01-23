@@ -2,6 +2,7 @@ package com.github.sampathsl.dmanager.dmanager.model;
 
 import com.github.sampathsl.dmanager.dmanager.util.DownloadStatus;
 import com.github.sampathsl.dmanager.dmanager.util.LocalDateTimeConverter;
+import io.micrometer.core.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -30,7 +31,8 @@ public class DownloadTaskLog implements Serializable {
 
   @NotNull private float progress;
 
-  // TODO - add more
+  @Nullable
+  private String errorLog;
 
   protected DownloadTaskLog() {
     super();
@@ -40,11 +42,12 @@ public class DownloadTaskLog implements Serializable {
       @NotNull Long taskId,
       @NotNull LocalDateTime created,
       @NotNull DownloadStatus downloadStatus,
-      @NotNull float progress) {
+      @NotNull float progress, String errorLog) {
     this.setTaskId(taskId);
     this.setCreated(created);
     this.setDownloadStatus(downloadStatus);
     this.setProgress(progress);
+    this.setErrorLog(errorLog);
   }
 
   public DownloadTaskLog(
@@ -52,12 +55,13 @@ public class DownloadTaskLog implements Serializable {
       @NotNull Long taskId,
       @NotNull LocalDateTime created,
       @NotNull DownloadStatus downloadStatus,
-      @NotNull float progress) {
+      @NotNull float progress, String errorLog) {
     this.setVersion(version);
     this.setTaskId(taskId);
     this.setCreated(created);
     this.setDownloadStatus(downloadStatus);
     this.setProgress(progress);
+    this.setErrorLog(errorLog);
   }
 
   public Long getId() {
@@ -102,6 +106,14 @@ public class DownloadTaskLog implements Serializable {
 
   public void setProgress(float progress) {
     this.progress = progress;
+  }
+
+  public String getErrorLog() {
+    return errorLog;
+  }
+
+  public void setErrorLog(String errorLog) {
+    this.errorLog = errorLog;
   }
 
   @Override

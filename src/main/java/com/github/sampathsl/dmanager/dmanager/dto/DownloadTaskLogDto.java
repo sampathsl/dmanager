@@ -16,7 +16,7 @@ public class DownloadTaskLogDto {
 
   private float progress;
 
-  // TODO - add more
+  private String errorLog;
 
   public Long getVersion() {
     return version;
@@ -56,5 +56,13 @@ public class DownloadTaskLogDto {
 
   private void setProgress(float progress) {
     this.progress = progress;
+  }
+
+  public String getErrorLog() {
+    return errorLog;
+  }
+
+  public void setErrorLog(String errorLog) {
+    this.errorLog = errorLog;
   }
 }

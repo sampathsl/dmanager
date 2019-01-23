@@ -61,13 +61,12 @@ public class HelperUtil {
   }
 
   public DownloadSession convertDownloadSessionDtoToEntity(DownloadSessionDto downloadSessionDto) {
-    DownloadSession downloadSession = new DownloadSession(downloadSessionDto.getVersion());
-    return downloadSession;
+    return new DownloadSession(downloadSessionDto.getVersion());
   }
 
   public List<DownloadTask> createDownloadTasks(
       List<String> urlStrings, Long sessionId, String downloadDestination) {
-    List<DownloadTask> downloadTasks =
+    return
         urlStrings
             .parallelStream()
             .map(
@@ -84,6 +83,7 @@ public class HelperUtil {
                         FileSpeedStatus.UNKNOWN,
                         FileSizeStatus.UNKNOWN))
             .collect(Collectors.toList());
-    return downloadTasks;
   }
+
+  //public
 }

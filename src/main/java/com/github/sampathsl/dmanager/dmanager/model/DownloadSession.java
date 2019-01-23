@@ -3,7 +3,6 @@ package com.github.sampathsl.dmanager.dmanager.model;
 import com.github.sampathsl.dmanager.dmanager.util.LocalDateTimeConverter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
