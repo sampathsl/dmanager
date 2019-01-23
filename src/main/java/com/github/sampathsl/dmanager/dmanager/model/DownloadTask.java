@@ -45,10 +45,10 @@ public class DownloadTask implements Serializable {
   @NotNull private float failurePercentage;
 
   // update
-  @NotNull private FileSpeedStatus fileSpeedStatus;
+  @NotNull private String fileSpeedStatus;
 
   // update
-  @NotNull private FileSizeStatus fileSizeStatus;
+  @NotNull private String fileSizeStatus;
 
   protected DownloadTask() {
     super();
@@ -63,8 +63,8 @@ public class DownloadTask implements Serializable {
       LocalDateTime ended,
       long fileTotalSize,
       float failurePercentage,
-      FileSpeedStatus fileSpeedStatus,
-      FileSizeStatus fileSizeStatus) {
+      String fileSpeedStatus,
+      String fileSizeStatus) {
     this.setSessionId(sessionId);
     this.setFileSource(fileSource);
     this.setFileDestination(fileDestination);
@@ -87,8 +87,8 @@ public class DownloadTask implements Serializable {
       LocalDateTime ended,
       long fileTotalSize,
       float failurePercentage,
-      FileSpeedStatus fileSpeedStatus,
-      FileSizeStatus fileSizeStatus) {
+      String fileSpeedStatus,
+      String fileSizeStatus) {
     this.setVersion(version);
     this.setSessionId(sessionId);
     this.setFileSource(fileSource);
@@ -178,19 +178,19 @@ public class DownloadTask implements Serializable {
     this.failurePercentage = failurePercentage;
   }
 
-  public FileSpeedStatus getFileSpeedStatus() {
+  public String getFileSpeedStatus() {
     return fileSpeedStatus;
   }
 
-  public void setFileSpeedStatus(FileSpeedStatus fileSpeedStatus) {
+  public void setFileSpeedStatus(String fileSpeedStatus) {
     this.fileSpeedStatus = fileSpeedStatus;
   }
 
-  public FileSizeStatus getFileSizeStatus() {
+  public String getFileSizeStatus() {
     return fileSizeStatus;
   }
 
-  public void setFileSizeStatus(FileSizeStatus fileSizeStatus) {
+  public void setFileSizeStatus(String fileSizeStatus) {
     this.fileSizeStatus = fileSizeStatus;
   }
 

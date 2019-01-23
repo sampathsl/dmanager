@@ -80,8 +80,8 @@ public class HelperUtil {
                         LocalDateTime.now(),
                         0l,
                         0l,
-                        FileSpeedStatus.UNKNOWN,
-                        FileSizeStatus.UNKNOWN))
+                        FileSpeedStatus.UNKNOWN.name(),
+                        FileSizeStatus.UNKNOWN.name()))
             .collect(Collectors.toList());
   }
 

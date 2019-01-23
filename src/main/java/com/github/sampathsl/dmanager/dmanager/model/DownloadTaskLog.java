@@ -1,6 +1,5 @@
 package com.github.sampathsl.dmanager.dmanager.model;
 
-import com.github.sampathsl.dmanager.dmanager.util.DownloadStatus;
 import com.github.sampathsl.dmanager.dmanager.util.LocalDateTimeConverter;
 import io.micrometer.core.lang.Nullable;
 
@@ -27,7 +26,7 @@ public class DownloadTaskLog implements Serializable {
   @Convert(converter = LocalDateTimeConverter.class)
   private LocalDateTime created;
 
-  @NotNull private DownloadStatus downloadStatus;
+  @NotNull private String downloadStatus;
 
   @NotNull private float progress;
 
@@ -41,7 +40,7 @@ public class DownloadTaskLog implements Serializable {
   public DownloadTaskLog(
       @NotNull Long taskId,
       @NotNull LocalDateTime created,
-      @NotNull DownloadStatus downloadStatus,
+      @NotNull String downloadStatus,
       @NotNull float progress, String errorLog) {
     this.setTaskId(taskId);
     this.setCreated(created);
@@ -54,7 +53,7 @@ public class DownloadTaskLog implements Serializable {
       @NotNull Long version,
       @NotNull Long taskId,
       @NotNull LocalDateTime created,
-      @NotNull DownloadStatus downloadStatus,
+      @NotNull String downloadStatus,
       @NotNull float progress, String errorLog) {
     this.setVersion(version);
     this.setTaskId(taskId);
@@ -92,11 +91,11 @@ public class DownloadTaskLog implements Serializable {
     this.created = created;
   }
 
-  public DownloadStatus getDownloadStatus() {
+  public String getDownloadStatus() {
     return downloadStatus;
   }
 
-  public void setDownloadStatus(DownloadStatus downloadStatus) {
+  public void setDownloadStatus(String downloadStatus) {
     this.downloadStatus = downloadStatus;
   }
 

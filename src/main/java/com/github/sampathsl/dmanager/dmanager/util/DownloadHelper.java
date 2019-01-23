@@ -48,7 +48,7 @@ public class DownloadHelper implements Observer {
 
     DownloadTaskLog downloadTaskLog =
         new DownloadTaskLog(
-            downloadTaskId, LocalDateTime.now(), downloadStatus, progress, "No Error");
+            downloadTaskId, LocalDateTime.now(), downloadStatus.name(), progress, "No Error");
     downloadTaskLogService.create(downloadTaskLog);
   }
 }

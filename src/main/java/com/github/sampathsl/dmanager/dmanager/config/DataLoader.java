@@ -91,8 +91,8 @@ public class DataLoader implements ApplicationRunner {
               ended,
               fileTotalSize,
               failurePercentage,
-              fileSpeedStatus,
-              fileSizeStatus);
+              fileSpeedStatus.name(),
+              fileSizeStatus.name());
 
       DownloadTask downloadTaskTwo =
           new DownloadTask(
@@ -104,27 +104,27 @@ public class DataLoader implements ApplicationRunner {
               endedTwo,
               fileTotalSizeTwo,
               failurePercentageTwo,
-              fileSpeedStatusTwo,
-              fileSizeStatusTwo);
+              fileSpeedStatusTwo.name(),
+              fileSizeStatusTwo.name());
 
       DownloadTask downloadTaskOneSaved = downloadTaskService.create(downloadTaskOne);
       DownloadTask downloadTaskTwoSaved = downloadTaskService.create(downloadTaskTwo);
 
       DownloadTaskLog downloadTaskLogOne =
           new DownloadTaskLog(
-              downloadTaskOneSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING, 10.0f, "");
+              downloadTaskOneSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING.name(), 10.0f, "");
 
       DownloadTaskLog downloadTaskLogTwo =
           new DownloadTaskLog(
-              downloadTaskOneSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING, 20.0f, "");
+              downloadTaskOneSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING.name(), 20.0f, "");
 
       DownloadTaskLog downloadTaskLogThree =
           new DownloadTaskLog(
-              downloadTaskTwoSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING, 10.0f, "");
+              downloadTaskTwoSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING.name(), 10.0f, "");
 
       DownloadTaskLog downloadTaskLogFour =
           new DownloadTaskLog(
-              downloadTaskTwoSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING, 30.0f, "");
+              downloadTaskTwoSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING.name(), 30.0f, "");
 
       downloadTaskLogService.create(downloadTaskLogOne);
       downloadTaskLogService.create(downloadTaskLogTwo);

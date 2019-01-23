@@ -153,23 +153,10 @@ public class DownloadManagerController {
     downloadTaskService.createDownloadTasks(downloadTasks).stream()
         .forEach(
             dt -> {
-              try {
-                downloadHelper.runDownloadWork(
-                    dt,
-                    new Integer(environment.getProperty("min_block_size")),
-                    new Integer(environment.getProperty("buffer_size")));
-              } catch (InterruptedException e) {
-                // LOG ERROR
-                DownloadTaskLog downloadTaskLog = new DownloadTaskLog(dt.getId(),
-                        LocalDateTime.now(),
-                        DownloadStatus.ERROR, 0, e.getMessage());
-                downloadTaskLogService.create(downloadTaskLog);
-              } catch (MalformedURLException e) {
-                // LOG ERROR
-                DownloadTaskLog downloadTaskLog = new DownloadTaskLog(dt.getId(),
-                        LocalDateTime.now(),
-                        DownloadStatus.ERROR, 0, e.getMessage());
-              }
+              downloadHelper.runDownloadWork(
+                      dt,
+                      new Integer(environment.getProperty("min_block_size")),
+                      new Integer(environment.getProperty("buffer_size")));
             });
 
     downloadSessionSaved.setDownloadTasks(downloadTaskSaved);
