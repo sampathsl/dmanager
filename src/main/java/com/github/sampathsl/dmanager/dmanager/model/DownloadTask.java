@@ -1,7 +1,5 @@
 package com.github.sampathsl.dmanager.dmanager.model;
 
-import com.github.sampathsl.dmanager.dmanager.util.FileSizeStatus;
-import com.github.sampathsl.dmanager.dmanager.util.FileSpeedStatus;
 import com.github.sampathsl.dmanager.dmanager.util.LocalDateTimeConverter;
 
 import javax.persistence.*;
