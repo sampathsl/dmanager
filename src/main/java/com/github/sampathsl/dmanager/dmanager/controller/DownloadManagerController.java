@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.MalformedURLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -150,7 +151,7 @@ public class DownloadManagerController {
     List<DownloadTask> downloadTaskSaved = downloadTaskService.createDownloadTasks(downloadTasks);
 
     // add to download process
-    downloadTaskService.createDownloadTasks(downloadTasks).stream()
+    downloadTaskSaved.stream()
         .forEach(
             dt -> {
               downloadHelper.runDownloadWork(
@@ -162,6 +163,7 @@ public class DownloadManagerController {
     downloadSessionSaved.setDownloadTasks(downloadTaskSaved);
     DownloadSessionDto downloadSessionDtoSaved =
         modelMapper.map(downloadSessionSaved, DownloadSessionDto.class);
+    downloadSessionDtoSaved.setUrls(downloadSessionDto.getUrls());
     return new ResponseEntity<>(downloadSessionDtoSaved, HttpStatus.CREATED);
   }
 
