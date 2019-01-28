@@ -33,11 +33,15 @@ public class DownloadTaskDto {
     return id;
   }
 
+  public void setId(Long id) {
+    this.id = id;
+  }
+
   public Long getVersion() {
     return version;
   }
 
-  private void setVersion(Long version) {
+  public void setVersion(Long version) {
     this.version = version;
   }
 
@@ -45,7 +49,7 @@ public class DownloadTaskDto {
     return fileSource;
   }
 
-  private void setFileSource(String fileSource) {
+  public void setFileSource(String fileSource) {
     this.fileSource = fileSource;
   }
 
@@ -53,7 +57,7 @@ public class DownloadTaskDto {
     return fileDestination;
   }
 
-  private void setFileDestination(String fileDestination) {
+  public void setFileDestination(String fileDestination) {
     this.fileDestination = fileDestination;
   }
 
@@ -61,7 +65,7 @@ public class DownloadTaskDto {
     return started;
   }
 
-  private void setStarted(LocalDateTime started) {
+  public void setStarted(LocalDateTime started) {
     this.started = started;
   }
 
@@ -69,7 +73,7 @@ public class DownloadTaskDto {
     return ended;
   }
 
-  private void setEnded(LocalDateTime ended) {
+  public void setEnded(LocalDateTime ended) {
     this.ended = ended;
   }
 
@@ -77,7 +81,7 @@ public class DownloadTaskDto {
     return protocol;
   }
 
-  private void setProtocol(String protocol) {
+  public void setProtocol(String protocol) {
     this.protocol = protocol;
   }
 
@@ -85,7 +89,7 @@ public class DownloadTaskDto {
     return fileTotalSize;
   }
 
-  private void setFileTotalSize(long fileTotalSize) {
+  public void setFileTotalSize(long fileTotalSize) {
     this.fileTotalSize = fileTotalSize;
   }
 
@@ -93,7 +97,7 @@ public class DownloadTaskDto {
     return failurePercentage;
   }
 
-  private void setFailurePercentage(float failurePercentage) {
+  public void setFailurePercentage(float failurePercentage) {
     this.failurePercentage = failurePercentage;
   }
 
@@ -101,7 +105,7 @@ public class DownloadTaskDto {
     return fileSpeedStatus;
   }
 
-  private void setFileSpeedStatus(FileSpeedStatus fileSpeedStatus) {
+  public void setFileSpeedStatus(FileSpeedStatus fileSpeedStatus) {
     this.fileSpeedStatus = fileSpeedStatus;
   }
 
@@ -109,7 +113,7 @@ public class DownloadTaskDto {
     return fileSizeStatus;
   }
 
-  private void setFileSizeStatus(FileSizeStatus fileSizeStatus) {
+  public void setFileSizeStatus(FileSizeStatus fileSizeStatus) {
     this.fileSizeStatus = fileSizeStatus;
   }
 }
