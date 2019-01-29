@@ -1,5 +1,7 @@
 package com.github.sampathsl.dmanager.model;
 
+import com.github.sampathsl.dmanager.util.FileSizeStatus;
+import com.github.sampathsl.dmanager.util.FileSpeedStatus;
 import com.github.sampathsl.dmanager.util.LocalDateTimeConverter;
 
 import javax.persistence.*;
@@ -15,38 +17,38 @@ public class DownloadTask implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Long id = new Long(0l);
 
-  @NotNull private Long sessionId = 0l;
+  @NotNull private Long sessionId = new Long(0l);
 
-  @Version private Long version;
+  @Version private Long version = new Long(0l);
 
-  @NotNull private String fileSource;
+  @NotNull private String fileSource = "";
 
-  @NotNull private String fileDestination;
+  @NotNull private String fileDestination = "";
 
-  @NotNull private String protocol;
+  @NotNull private String protocol = "";
 
   @NotNull
   @Convert(converter = LocalDateTimeConverter.class)
-  private LocalDateTime started;
+  private LocalDateTime started = LocalDateTime.now();
 
   // update
   @NotNull
   @Convert(converter = LocalDateTimeConverter.class)
-  private LocalDateTime ended;
+  private LocalDateTime ended = LocalDateTime.now();
 
   // update
-  @NotNull private long fileTotalSize;
+  @NotNull private long fileTotalSize = 0l;
 
   // update
-  @NotNull private float failurePercentage;
+  @NotNull private float failurePercentage = 0l;
 
   // update
-  @NotNull private String fileSpeedStatus;
+  @NotNull private String fileSpeedStatus = FileSpeedStatus.UNKNOWN.toString();
 
   // update
-  @NotNull private String fileSizeStatus;
+  @NotNull private String fileSizeStatus = FileSizeStatus.UNKNOWN.toString();
 
   protected DownloadTask() {
     super();

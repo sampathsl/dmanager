@@ -17,37 +17,28 @@ public class DownloadTaskLog implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Long id = new Long(0l);
 
-  @Version private Long version;
+  @Version private Long version = new Long(0l);
 
-  @NotNull private Long taskId;
+  @NotNull private Long taskId = new Long(0l);
 
   @NotNull
   @Convert(converter = LocalDateTimeConverter.class)
-  private LocalDateTime created;
+  private LocalDateTime created = LocalDateTime.now();
 
-  @NotNull private String downloadStatus;
+  @NotNull private String downloadStatus = DownloadStatus.ERROR.getStatus();
 
-  @NotNull private float progress;
+  @NotNull private float progress = 0f;
 
-  @Nullable
-  private String errorLog;
+  @Nullable private String errorLog = "Error";
 
   protected DownloadTaskLog() {
     super();
-    taskId = 0L;
-    created = LocalDateTime.now();
-    downloadStatus = DownloadStatus.DOWNLOADING.getStatus();
-    progress = 0F;
-    errorLog = "Error";
   }
 
   public DownloadTaskLog(
-      @NotNull Long taskId,
-      @NotNull LocalDateTime created,
-      @NotNull String downloadStatus,
-      @NotNull float progress, String errorLog) {
+      Long taskId, LocalDateTime created, String downloadStatus, float progress, String errorLog) {
     this.setTaskId(taskId);
     this.setCreated(created);
     this.setDownloadStatus(downloadStatus);

@@ -21,16 +21,16 @@ public class DownloadSession implements Serializable {
   @Version private Long version;
 
   @Convert(converter = LocalDateTimeConverter.class)
-  private LocalDateTime created = LocalDateTime.now();
+  private LocalDateTime created;
 
   @Transient private List<DownloadTask> downloadTasks;
 
   protected DownloadSession() {
     super();
-    id = new Long(0l);
-    version = new Long(0l);
-    created = LocalDateTime.now();
-    downloadTasks = new ArrayList<>();
+    this.id = new Long(0l);
+    setVersion(new Long(0l));
+    setCreated(LocalDateTime.now());
+    setDownloadTasks(new ArrayList<>());
   }
 
   public DownloadSession(Long version) {
@@ -51,6 +51,10 @@ public class DownloadSession implements Serializable {
 
   public LocalDateTime getCreated() {
     return created;
+  }
+
+  public void setCreated(LocalDateTime created) {
+    this.created = created;
   }
 
   public List<DownloadTask> getDownloadTasks() {
