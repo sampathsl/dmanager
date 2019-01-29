@@ -22,7 +22,7 @@ public class DownloadTaskLogDto {
     return version;
   }
 
-  private void setVersion(Long version) {
+  public void setVersion(Long version) {
     this.version = version;
   }
 
@@ -30,7 +30,7 @@ public class DownloadTaskLogDto {
     return taskId;
   }
 
-  private void setTaskId(Long taskId) {
+  public void setTaskId(Long taskId) {
     this.taskId = taskId;
   }
 
@@ -38,7 +38,7 @@ public class DownloadTaskLogDto {
     return created;
   }
 
-  private void setCreated(LocalDateTime created) {
+  public void setCreated(LocalDateTime created) {
     this.created = created;
   }
 
@@ -46,7 +46,7 @@ public class DownloadTaskLogDto {
     return downloadStatus;
   }
 
-  private void setDownloadStatus(DownloadStatus downloadStatus) {
+  public void setDownloadStatus(DownloadStatus downloadStatus) {
     this.downloadStatus = downloadStatus;
   }
 
@@ -54,7 +54,7 @@ public class DownloadTaskLogDto {
     return progress;
   }
 
-  private void setProgress(float progress) {
+  public void setProgress(float progress) {
     this.progress = progress;
   }
 

@@ -5,6 +5,7 @@ import com.github.sampathsl.dmanager.util.LocalDateTimeConverter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,6 +27,10 @@ public class DownloadSession implements Serializable {
 
   protected DownloadSession() {
     super();
+    id = new Long(0l);
+    version = new Long(0l);
+    created = LocalDateTime.now();
+    downloadTasks = new ArrayList<>();
   }
 
   public DownloadSession(Long version) {

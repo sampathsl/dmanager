@@ -1,5 +1,6 @@
 package com.github.sampathsl.dmanager.model;
 
+import com.github.sampathsl.dmanager.util.DownloadStatus;
 import com.github.sampathsl.dmanager.util.LocalDateTimeConverter;
 import io.micrometer.core.lang.Nullable;
 
@@ -35,6 +36,11 @@ public class DownloadTaskLog implements Serializable {
 
   protected DownloadTaskLog() {
     super();
+    taskId = 0L;
+    created = LocalDateTime.now();
+    downloadStatus = DownloadStatus.DOWNLOADING.getStatus();
+    progress = 0F;
+    errorLog = "Error";
   }
 
   public DownloadTaskLog(

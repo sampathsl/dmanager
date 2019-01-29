@@ -9,7 +9,7 @@ import java.util.Observable;
 public class DownloadManager extends Observable {
 
   // The unique instance of this class
-  private static volatile DownloadManager downloadManagerInstance = new DownloadManager();
+  private static DownloadManager downloadManagerInstance = new DownloadManager();
 
   // Member variables
   private int mNumConnPerDownload = 8;
