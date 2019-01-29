@@ -61,7 +61,7 @@ public class HelperUtil {
   }
 
   public DownloadSession convertDownloadSessionDtoToEntity(DownloadSessionDto downloadSessionDto) {
-    return new DownloadSession(downloadSessionDto.getVersion());
+    return new DownloadSession(new Long(0l));
   }
 
   public List<DownloadTask> createDownloadTasks(
@@ -85,5 +85,4 @@ public class HelperUtil {
             .collect(Collectors.toList());
   }
 
-  //public
 }

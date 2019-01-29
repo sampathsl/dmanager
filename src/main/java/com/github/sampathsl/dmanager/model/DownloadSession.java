@@ -28,13 +28,13 @@ public class DownloadSession implements Serializable {
   protected DownloadSession() {
     super();
     this.id = new Long(0l);
-    setVersion(new Long(0l));
-    setCreated(LocalDateTime.now());
-    setDownloadTasks(new ArrayList<>());
+    this.setVersion(new Long(0l));
+    this.setCreated(LocalDateTime.now());
+    this.setDownloadTasks(new ArrayList<>());
   }
 
   public DownloadSession(Long version) {
-    this.setVersion(version);
+    this.version = version;
   }
 
   public Long getId() {
