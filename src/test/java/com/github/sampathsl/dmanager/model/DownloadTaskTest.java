@@ -40,7 +40,7 @@ public class DownloadTaskTest {
   }
 
   @Test
-  public void testGetterOne() {
+  public void testOne() {
     DownloadTask downloadTask =
         new DownloadTask(
             version,
@@ -70,7 +70,7 @@ public class DownloadTaskTest {
   }
 
   @Test
-  public void testGetterTwo() {
+  public void testTwo() {
     DownloadTask downloadTask =
         new DownloadTask(
             sessionId,
