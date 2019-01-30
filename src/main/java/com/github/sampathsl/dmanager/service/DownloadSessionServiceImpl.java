@@ -2,7 +2,6 @@ package com.github.sampathsl.dmanager.service;
 
 import com.github.sampathsl.dmanager.model.DownloadSession;
 import com.github.sampathsl.dmanager.repository.DownloadSessionRepository;
-import com.github.sampathsl.dmanager.repository.DownloadTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +11,9 @@ import java.util.Optional;
 public class DownloadSessionServiceImpl implements DownloadSessionService {
 
   @Autowired private DownloadSessionRepository downloadSessionRepository;
-  @Autowired private DownloadTaskRepository downloadTaskRepository;
 
   public void setDownloadSessionRepository(DownloadSessionRepository downloadSessionRepository) {
     this.downloadSessionRepository = downloadSessionRepository;
-  }
-
-  public void setDownloadTaskRepository(DownloadTaskRepository downloadTaskRepository) {
-    this.downloadTaskRepository = downloadTaskRepository;
   }
 
   @Override
