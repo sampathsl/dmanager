@@ -11,11 +11,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class DownloadTaskLogServiceImplTest {
 
@@ -59,17 +61,22 @@ public class DownloadTaskLogServiceImplTest {
 
   @Test
   public void testDelete() {
-    //TODO
+    downloadTaskLogService.delete(downloadTaskLog);
+    verify(downloadTaskLogRepository, times(1)).delete(eq(downloadTaskLog));
   }
 
   @Test
   public void testFindAllByTaskId() {
-    //TODO
+    List<DownloadTaskLog> downloadTaskLogs = new ArrayList<>();
+    downloadTaskLogs.add(downloadTaskLog);
+    when(downloadTaskLogRepository.findAllByTaskId(1l)).thenReturn(downloadTaskLogs);
+    Assert.assertThat(downloadTaskLogService.findAllByTaskId(1l), is(Matchers.notNullValue()));
   }
 
   @Test
   public void testFindLastRecordAllByTaskId() {
-    //TODO
+    when(downloadTaskLogRepository.findLastRecordAllByTaskId(1l))
+        .thenReturn(optionalDownloadTaskLog);
+    Assert.assertThat(downloadTaskLogService.findLastRecordAllByTaskId(1l), is(Matchers.notNullValue()));
   }
-
 }
