@@ -44,6 +44,6 @@ public class DownloadTaskLogServiceImpl implements DownloadTaskLogService {
 
   @Override
   public DownloadTaskLog update(DownloadTaskLog downloadTaskLog) {
-    return null;
+    return downloadTaskRepository.save(downloadTaskLog);
   }
 }
