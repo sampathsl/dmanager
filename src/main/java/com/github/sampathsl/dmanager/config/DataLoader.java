@@ -62,7 +62,7 @@ public class DataLoader implements ApplicationRunner {
       DownloadSession downloadSessionSaved = downloadSessionService.create(downloadSession);
 
       String fileSource = "http://my.file.com/file";
-      String fileDestination = "/home/sampath/";
+      String fileDestination = "/home/sam/";
       LocalDateTime started = LocalDateTime.now();
       LocalDateTime ended = LocalDateTime.now();
       String protocol = "http";
@@ -72,7 +72,7 @@ public class DataLoader implements ApplicationRunner {
       FileSizeStatus fileSizeStatus = FileSizeStatus.SMALL;
 
       String fileSourceTwo = "https://my.file.com/file";
-      String fileDestinationTwo = "/home/sampath/";
+      String fileDestinationTwo = "/home/sam/";
       LocalDateTime startedTwo = LocalDateTime.now();
       LocalDateTime endedTwo = LocalDateTime.now();
       String protocolTwo = "http";
