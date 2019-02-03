@@ -16,25 +16,25 @@ public class DownloadSession implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Long id = new Long(0l);
 
-  @Version private Long version;
+  @Version private Long version = new Long(0l);
 
   @Convert(converter = LocalDateTimeConverter.class)
-  private LocalDateTime created;
+  private LocalDateTime created = LocalDateTime.now();
 
-  @Transient private List<DownloadTask> downloadTasks;
+  @Transient private List<DownloadTask> downloadTasks = new ArrayList<>();
 
   protected DownloadSession() {
     super();
-    this.id = new Long(0l);
-    this.setVersion(new Long(0l));
-    this.setCreated(LocalDateTime.now());
-    this.setDownloadTasks(new ArrayList<>());
   }
 
-  public DownloadSession(Long version) {
+  public DownloadSession(
+      Long id, Long version, LocalDateTime created, List<DownloadTask> downloadTasks) {
+    this.id = id;
     this.version = version;
+    this.created = created;
+    this.downloadTasks = downloadTasks;
   }
 
   public Long getId() {

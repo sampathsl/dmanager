@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -28,7 +30,7 @@ public class DownloadSessionServiceImplTest {
   @Before
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
-    downloadSession = new DownloadSession(0l);
+    downloadSession = new DownloadSession(new Long(0l), new Long(0l), LocalDateTime.now(), new ArrayList<>());
     downloadSessionService = new DownloadSessionServiceImpl();
     ((DownloadSessionServiceImpl) downloadSessionService)
         .setDownloadSessionRepository(downloadSessionRepository);

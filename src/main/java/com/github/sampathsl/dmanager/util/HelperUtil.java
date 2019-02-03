@@ -61,28 +61,30 @@ public class HelperUtil {
   }
 
   public DownloadSession convertDownloadSessionDtoToEntity(DownloadSessionDto downloadSessionDto) {
-    return new DownloadSession(new Long(0l));
+    return new DownloadSession(
+        downloadSessionDto.getId(),
+        downloadSessionDto.getVersion(),
+        LocalDateTime.now(),
+        new ArrayList<>());
   }
 
   public List<DownloadTask> createDownloadTasks(
       List<String> urlStrings, Long sessionId, String downloadDestination) {
-    return
-        urlStrings
-            .parallelStream()
-            .map(
-                selectedUrl ->
-                    new DownloadTask(
-                        sessionId,
-                        selectedUrl,
-                        downloadDestination,
-                        getProtocol(selectedUrl),
-                        LocalDateTime.now(),
-                        LocalDateTime.now(),
-                        0l,
-                        0l,
-                        FileSpeedStatus.UNKNOWN.name(),
-                        FileSizeStatus.UNKNOWN.name()))
-            .collect(Collectors.toList());
+    return urlStrings
+        .parallelStream()
+        .map(
+            selectedUrl ->
+                new DownloadTask(
+                    sessionId,
+                    selectedUrl,
+                    downloadDestination,
+                    getProtocol(selectedUrl),
+                    LocalDateTime.now(),
+                    LocalDateTime.now(),
+                    0l,
+                    0l,
+                    FileSpeedStatus.UNKNOWN.name(),
+                    FileSizeStatus.UNKNOWN.name()))
+        .collect(Collectors.toList());
   }
-
 }
