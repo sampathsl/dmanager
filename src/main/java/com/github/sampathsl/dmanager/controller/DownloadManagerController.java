@@ -100,10 +100,8 @@ public class DownloadManagerController {
   @GetMapping("/download/task/{id}")
   public ResponseEntity<?> getDownloadTaskInfo(@Valid @PathVariable("id") Long id) {
     Optional<DownloadTask> downloadTask = downloadTaskService.findById(id);
-    return downloadTask.isPresent()
-        ? new ResponseEntity(
-            modelMapper.map(downloadTask.get(), DownloadTaskDto.class), HttpStatus.OK)
-        : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    return downloadTask.map(downloadTask1 -> new ResponseEntity(
+            modelMapper.map(downloadTask1, DownloadTaskDto.class), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
 
   @GetMapping("/download/task-logs/task-id/{taskId}")
