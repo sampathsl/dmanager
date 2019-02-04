@@ -13,7 +13,7 @@ public interface DownloadTaskLogService {
 
   List<DownloadTaskLog> findAllByTaskId(Long taskId);
 
-  Optional<DownloadTaskLog> findLastRecordAllByTaskId(Long taskId);
+  Optional<DownloadTaskLog> findLastRecordByTaskId(Long taskId);
 
   Optional<DownloadTaskLog> findById(Long id);
 

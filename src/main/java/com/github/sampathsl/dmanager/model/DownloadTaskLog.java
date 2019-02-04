@@ -51,7 +51,8 @@ public class DownloadTaskLog implements Serializable {
       @NotNull Long taskId,
       @NotNull LocalDateTime created,
       @NotNull String downloadStatus,
-      @NotNull float progress, String errorLog) {
+      @NotNull float progress,
+      String errorLog) {
     this.setVersion(version);
     this.setTaskId(taskId);
     this.setCreated(created);

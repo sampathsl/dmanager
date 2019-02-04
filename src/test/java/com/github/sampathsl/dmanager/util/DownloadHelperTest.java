@@ -4,14 +4,10 @@ import com.github.sampathsl.dmanager.model.DownloadTask;
 import com.github.sampathsl.dmanager.model.DownloadTaskLog;
 import com.github.sampathsl.dmanager.service.DownloadTaskLogService;
 import com.github.sampathsl.dmanager.workers.DownloadManager;
-import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import static org.hamcrest.CoreMatchers.is;
 
 import java.time.LocalDateTime;
 
@@ -133,7 +129,7 @@ public class DownloadHelperTest {
 
   @Test
   public void testUpdate() {
-      // TODO
+    // TODO
     /*DownloadHelper downloadHelperMock = Mockito.mock(DownloadHelper.class);
     Mockito.doCallRealMethod()
         .when(downloadHelperMock)

@@ -30,7 +30,8 @@ public class DownloadSessionServiceImplTest {
   @Before
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
-    downloadSession = new DownloadSession(new Long(0l), new Long(0l), LocalDateTime.now(), new ArrayList<>());
+    downloadSession =
+        new DownloadSession(new Long(0l), new Long(0l), LocalDateTime.now(), new ArrayList<>());
     downloadSessionService = new DownloadSessionServiceImpl();
     ((DownloadSessionServiceImpl) downloadSessionService)
         .setDownloadSessionRepository(downloadSessionRepository);

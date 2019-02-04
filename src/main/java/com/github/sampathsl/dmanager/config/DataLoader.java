@@ -58,7 +58,8 @@ public class DataLoader implements ApplicationRunner {
       DownloadSessionDto downloadSessionDto = new DownloadSessionDto();
       downloadSessionDto.setUrls(
           new ArrayList<>(Arrays.asList("http://my.file.com/file", "https://my.file.com/file")));
-      DownloadSession downloadSession = helperUtil.convertDownloadSessionDtoToEntity(downloadSessionDto);
+      DownloadSession downloadSession =
+          helperUtil.convertDownloadSessionDtoToEntity(downloadSessionDto);
       DownloadSession downloadSessionSaved = downloadSessionService.create(downloadSession);
 
       String fileSource = "http://my.file.com/file";
@@ -112,19 +113,35 @@ public class DataLoader implements ApplicationRunner {
 
       DownloadTaskLog downloadTaskLogOne =
           new DownloadTaskLog(
-              downloadTaskOneSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING.name(), 10.0f, "");
+              downloadTaskOneSaved.getId(),
+              LocalDateTime.now(),
+              DownloadStatus.DOWNLOADING.name(),
+              10.0f,
+              "");
 
       DownloadTaskLog downloadTaskLogTwo =
           new DownloadTaskLog(
-              downloadTaskOneSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING.name(), 20.0f, "");
+              downloadTaskOneSaved.getId(),
+              LocalDateTime.now(),
+              DownloadStatus.DOWNLOADING.name(),
+              20.0f,
+              "");
 
       DownloadTaskLog downloadTaskLogThree =
           new DownloadTaskLog(
-              downloadTaskTwoSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING.name(), 10.0f, "");
+              downloadTaskTwoSaved.getId(),
+              LocalDateTime.now(),
+              DownloadStatus.DOWNLOADING.name(),
+              10.0f,
+              "");
 
       DownloadTaskLog downloadTaskLogFour =
           new DownloadTaskLog(
-              downloadTaskTwoSaved.getId(), LocalDateTime.now(), DownloadStatus.DOWNLOADING.name(), 30.0f, "");
+              downloadTaskTwoSaved.getId(),
+              LocalDateTime.now(),
+              DownloadStatus.DOWNLOADING.name(),
+              30.0f,
+              "");
 
       downloadTaskLogService.create(downloadTaskLogOne);
       downloadTaskLogService.create(downloadTaskLogTwo);

@@ -75,8 +75,9 @@ public class DownloadTaskLogServiceImplTest {
 
   @Test
   public void testFindLastRecordAllByTaskId() {
-    when(downloadTaskLogRepository.findLastRecordAllByTaskId(1l))
+    when(downloadTaskLogRepository.findLastRecordByTaskId(1l))
         .thenReturn(optionalDownloadTaskLog);
-    Assert.assertThat(downloadTaskLogService.findLastRecordAllByTaskId(1l), is(Matchers.notNullValue()));
+    Assert.assertThat(
+        downloadTaskLogService.findLastRecordByTaskId(1l), is(Matchers.notNullValue()));
   }
 }

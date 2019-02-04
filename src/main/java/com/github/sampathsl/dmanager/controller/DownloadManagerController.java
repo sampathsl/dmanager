@@ -10,7 +10,6 @@ import com.github.sampathsl.dmanager.model.DownloadTaskLog;
 import com.github.sampathsl.dmanager.service.DownloadSessionService;
 import com.github.sampathsl.dmanager.service.DownloadTaskLogService;
 import com.github.sampathsl.dmanager.service.DownloadTaskService;
-import com.github.sampathsl.dmanager.util.CustomErrorTypeException;
 import com.github.sampathsl.dmanager.util.DownloadHelper;
 import com.github.sampathsl.dmanager.util.HelperUtil;
 import org.modelmapper.TypeToken;
@@ -18,14 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -100,8 +97,12 @@ public class DownloadManagerController {
   @GetMapping("/download/task/{id}")
   public ResponseEntity<?> getDownloadTaskInfo(@Valid @PathVariable("id") Long id) {
     Optional<DownloadTask> downloadTask = downloadTaskService.findById(id);
-    return downloadTask.map(downloadTask1 -> new ResponseEntity(
-            modelMapper.map(downloadTask1, DownloadTaskDto.class), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    return downloadTask
+        .map(
+            downloadTask1 ->
+                new ResponseEntity(
+                    modelMapper.map(downloadTask1, DownloadTaskDto.class), HttpStatus.OK))
+        .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
 
   @GetMapping("/download/task-logs/task-id/{taskId}")
@@ -118,7 +119,7 @@ public class DownloadManagerController {
   @GetMapping("/download/task-logs/task-id/{taskId}/last")
   public ResponseEntity<?> getLastDownloadTaskLogInfo(@Valid @PathVariable("taskId") Long taskId) {
     Optional<DownloadTaskLog> downloadTaskLog =
-        downloadTaskLogService.findLastRecordAllByTaskId(taskId);
+        downloadTaskLogService.findLastRecordByTaskId(taskId);
     return downloadTaskLog.isPresent()
         ? new ResponseEntity(
             modelMapper.map(downloadTaskLog.get(), DownloadTaskLogDto.class), HttpStatus.OK)
@@ -127,52 +128,42 @@ public class DownloadManagerController {
 
   @PostMapping("/download")
   public ResponseEntity<?> createDownloadTasks(
-      @Valid @RequestBody DownloadSessionDto downloadSessionDto, Errors errors) {
+      @Valid @RequestBody DownloadSessionDto downloadSessionDto) {
 
-    if (errors.hasErrors()) {
-      return getErrors(errors);
+    try {
+      if (downloadSessionDto == null) throw new Exception(INTERNAL_SERVER_ERROR);
+      DownloadSession downloadSession =
+          helperUtil.convertDownloadSessionDtoToEntity(downloadSessionDto);
+      DownloadSession downloadSessionSaved = downloadSessionService.create(downloadSession);
+      List<DownloadTask> downloadTasks =
+          helperUtil.createDownloadTasks(
+              downloadSessionDto.getUrls(),
+              downloadSessionSaved.getId(),
+              getEnvironmentVariable("download_destination"));
+
+      List<DownloadTask> downloadTaskSaved = downloadTaskService.createDownloadTasks(downloadTasks);
+
+      // add to download process
+      downloadTaskSaved.stream()
+          .forEach(
+              dt -> {
+                downloadHelper.runDownloadWork(
+                    dt,
+                    new Integer(getEnvironmentVariable("min_block_size")),
+                    new Integer(getEnvironmentVariable("buffer_size")));
+              });
+
+      downloadSessionSaved.setDownloadTasks(downloadTaskSaved);
+      DownloadSessionDto downloadSessionDtoSaved =
+          modelMapper.map(downloadSessionSaved, DownloadSessionDto.class);
+      downloadSessionDtoSaved.setUrls(downloadSessionDto.getUrls());
+      return new ResponseEntity<>(downloadSessionDtoSaved, HttpStatus.CREATED);
+    } catch (Exception e) {
+      return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    DownloadSession downloadSession =
-        helperUtil.convertDownloadSessionDtoToEntity(downloadSessionDto);
-    DownloadSession downloadSessionSaved = downloadSessionService.create(downloadSession);
-    List<DownloadTask> downloadTasks =
-        helperUtil.createDownloadTasks(
-            downloadSessionDto.getUrls(),
-            downloadSessionSaved.getId(),
-            environment.getProperty("download_destination"));
-
-    List<DownloadTask> downloadTaskSaved = downloadTaskService.createDownloadTasks(downloadTasks);
-
-    // add to download process
-    downloadTaskSaved.stream()
-        .forEach(
-            dt -> {
-              downloadHelper.runDownloadWork(
-                      dt,
-                      new Integer(environment.getProperty("min_block_size")),
-                      new Integer(environment.getProperty("buffer_size")));
-            });
-
-    downloadSessionSaved.setDownloadTasks(downloadTaskSaved);
-    DownloadSessionDto downloadSessionDtoSaved =
-        modelMapper.map(downloadSessionSaved, DownloadSessionDto.class);
-    downloadSessionDtoSaved.setUrls(downloadSessionDto.getUrls());
-    return new ResponseEntity<>(downloadSessionDtoSaved, HttpStatus.CREATED);
   }
 
-  /**
-   * Get all the errors
-   *
-   * @param errors
-   * @return ResponseEntity
-   */
-  private ResponseEntity<List<CustomErrorTypeException>> getErrors(Errors errors) {
-
-    return ResponseEntity.badRequest()
-        .body(
-            errors.getAllErrors().stream()
-                .map(msg -> new CustomErrorTypeException(msg.getDefaultMessage()))
-                .collect(Collectors.toList()));
+  public String getEnvironmentVariable(String key) {
+    return environment.getProperty(key);
   }
 }
