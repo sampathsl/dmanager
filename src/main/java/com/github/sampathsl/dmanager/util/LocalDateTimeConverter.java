@@ -1,8 +1,9 @@
 package com.github.sampathsl.dmanager.util;
 
-import javax.persistence.AttributeConverter;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+
+import javax.persistence.AttributeConverter;
 
 public class LocalDateTimeConverter implements AttributeConverter<LocalDateTime, Timestamp> {
 

@@ -2,12 +2,20 @@ package com.github.sampathsl.dmanager.model;
 
 import com.github.sampathsl.dmanager.util.DownloadStatus;
 import com.github.sampathsl.dmanager.util.LocalDateTimeConverter;
-import io.micrometer.core.lang.Nullable;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "Download_Task_Log", schema = "public")
@@ -31,7 +39,8 @@ public class DownloadTaskLog implements Serializable {
 
   @NotNull private float progress = 0f;
 
-  @Nullable private String errorLog = "Error";
+  @Nullable
+  private String errorLog = "Error";
 
   protected DownloadTaskLog() {
     super();

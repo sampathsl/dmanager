@@ -5,6 +5,7 @@ import com.github.sampathsl.dmanager.util.DownloadStatus;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 

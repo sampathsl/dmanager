@@ -2,13 +2,14 @@ package com.github.sampathsl.dmanager.service;
 
 import com.github.sampathsl.dmanager.model.DownloadTask;
 import com.github.sampathsl.dmanager.repository.DownloadTaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class DownloadTaskServiceImpl implements DownloadTaskService {

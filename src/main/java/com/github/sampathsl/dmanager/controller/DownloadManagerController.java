@@ -12,27 +12,32 @@ import com.github.sampathsl.dmanager.service.DownloadTaskLogService;
 import com.github.sampathsl.dmanager.service.DownloadTaskService;
 import com.github.sampathsl.dmanager.util.DownloadHelper;
 import com.github.sampathsl.dmanager.util.HelperUtil;
+
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1")
 public class DownloadManagerController {
 
-  private static final Logger LOGGER = Logger.getLogger(DownloadManagerController.class.getName());
-
   private static final String INTERNAL_SERVER_ERROR = "Internal Server Error Occurred!";
 
-  @Autowired private Environment environment;
+  @Autowired
+  private Environment environment;
 
   @Autowired private ModelMapperUtil modelMapper;
 
@@ -79,6 +84,11 @@ public class DownloadManagerController {
     return "ok";
   }
 
+  /**
+   * Get the download session for given session id
+   * @param id given session id
+   * @return
+   */
   @GetMapping("/download/session/{id}")
   public ResponseEntity<?> getDownloadSessionInfo(@Valid @PathVariable("id") Long id) {
 
@@ -94,6 +104,11 @@ public class DownloadManagerController {
     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 
+  /**
+   * Get download task information for given download task info id
+   * @param id given download task information id
+   * @return
+   */
   @GetMapping("/download/task/{id}")
   public ResponseEntity<?> getDownloadTaskInfo(@Valid @PathVariable("id") Long id) {
     Optional<DownloadTask> downloadTask = downloadTaskService.findById(id);
@@ -105,6 +120,11 @@ public class DownloadManagerController {
         .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
 
+  /**
+   * Get download task log information for given task id
+   * @param taskId given task id
+   * @return
+   */
   @GetMapping("/download/task-logs/task-id/{taskId}")
   public ResponseEntity<?> getAllDownloadTaskLogInfo(@Valid @PathVariable("taskId") Long taskId) {
     java.lang.reflect.Type targetListType = new TypeToken<List<DownloadTaskLogDto>>() {}.getType();

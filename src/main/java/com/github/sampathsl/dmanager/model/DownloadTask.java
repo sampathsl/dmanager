@@ -4,10 +4,18 @@ import com.github.sampathsl.dmanager.util.FileSizeStatus;
 import com.github.sampathsl.dmanager.util.FileSpeedStatus;
 import com.github.sampathsl.dmanager.util.LocalDateTimeConverter;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
+
 
 @Entity
 @Table(name = "Download_Task", schema = "public")

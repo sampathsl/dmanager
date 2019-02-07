@@ -2,16 +2,16 @@ package com.github.sampathsl.dmanager.service;
 
 import com.github.sampathsl.dmanager.model.DownloadTaskLog;
 import com.github.sampathsl.dmanager.repository.DownloadTaskLogRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class DownloadTaskLogServiceImpl implements DownloadTaskLogService {
 
-  @Autowired private DownloadTaskLogRepository downloadTaskRepository;
+  @Autowired
+  private DownloadTaskLogRepository downloadTaskRepository;
 
   public void setDownloadTaskRepository(DownloadTaskLogRepository downloadTaskRepository) {
     this.downloadTaskRepository = downloadTaskRepository;

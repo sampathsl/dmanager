@@ -11,15 +11,16 @@ import com.github.sampathsl.dmanager.util.DownloadStatus;
 import com.github.sampathsl.dmanager.util.FileSizeStatus;
 import com.github.sampathsl.dmanager.util.FileSpeedStatus;
 import com.github.sampathsl.dmanager.util.HelperUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Logger;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -50,6 +51,10 @@ public class DataLoader implements ApplicationRunner {
     this.downloadTaskLogService = downloadTaskLogService;
   }
 
+  /**
+   * Load initial sample data sets
+   * @param args Argument to parse to the method
+   */
   @Override
   public void run(ApplicationArguments args) {
     LOGGER.info("RUNNING ................... ");

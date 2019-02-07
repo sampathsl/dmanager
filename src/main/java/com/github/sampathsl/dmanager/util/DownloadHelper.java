@@ -5,13 +5,14 @@ import com.github.sampathsl.dmanager.model.DownloadTaskLog;
 import com.github.sampathsl.dmanager.service.DownloadTaskLogService;
 import com.github.sampathsl.dmanager.workers.DownloadManager;
 import com.github.sampathsl.dmanager.workers.DownloadTaskWorker;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Observable;
 import java.util.Observer;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DownloadHelper implements Observer {

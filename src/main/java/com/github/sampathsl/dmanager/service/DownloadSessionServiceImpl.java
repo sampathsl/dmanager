@@ -2,10 +2,11 @@ package com.github.sampathsl.dmanager.service;
 
 import com.github.sampathsl.dmanager.model.DownloadSession;
 import com.github.sampathsl.dmanager.repository.DownloadSessionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class DownloadSessionServiceImpl implements DownloadSessionService {

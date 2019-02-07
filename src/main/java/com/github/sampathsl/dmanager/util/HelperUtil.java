@@ -4,8 +4,6 @@ import com.github.sampathsl.dmanager.dto.DownloadSessionDto;
 import com.github.sampathsl.dmanager.dto.DownloadTaskDto;
 import com.github.sampathsl.dmanager.model.DownloadSession;
 import com.github.sampathsl.dmanager.model.DownloadTask;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,6 +13,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 @Component
 public class HelperUtil {
